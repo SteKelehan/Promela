@@ -1,0 +1,45 @@
+byte n = 0, finish = 0;
+
+active proctype P()
+{
+	byte reg, count = 0;
+	do 
+		:: count == 2 -> break
+		:: else ->
+			reg = n;
+			reg++;
+			n = reg;
+			count++
+	od;
+	finish++
+}
+
+active proctype Q()
+{
+	byte reg, count = 0;
+	do
+		:: count == 2 -> break
+		:: else ->
+			n = n + 1;
+			count++
+	od;
+	finish++
+
+}
+
+
+active proctype When_Finished()
+{
+	finish == 2;
+	assert (n != 3);
+	printf("n = %d\n", n);
+
+}
+
+//init{
+//	atomic{
+//		run P()
+//		run Q()
+//	}
+//	run When_Finished()
+//}
